@@ -1,144 +1,42 @@
-# Route / Score Optimizer — Python 3.7+ Edition
+# Route/Score Optimizer v3
 
-This project is deliberately written for broad Python compatibility.
+Python 3.7+ reference implementation for binary-search and resource-capacity experiments.
 
-## Supported
+## Core algorithms
 
-- Python 3.7
-- Python 3.8
-- Python 3.9
-- Python 3.10
-- Python 3.11
-- Python 3.12
-- Python 3.13+
+- Duplicate-safe pivot search for rotated sorted arrays.
+- Binary search for a score threshold.
+- Greedy capacity feasibility.
+- Binary search for minimum required capacity.
+- Fixed-capacity best-route selection with deterministic tie-breaking.
+- Route-level binary search only when score-to-feasibility is monotonic.
 
-It uses only the Python standard library.
+## Complexity
 
-## Files
+- One route minimum capacity: `O(n log D)`, where `D` is total leg distance.
+- Arbitrary routes with fixed capacity: worst-case `O(mn)` for `m` routes and `n` legs per route; lower-bound pruning improves practical work.
+- Monotonic routes with fixed capacity: about `O(n log m)` for comparable route sizes.
 
-- `route_optimizer.py` — algorithms
-- `test_route_optimizer.py` — tests
-- `main.py` — command-line demonstration
-- `README.md` — documentation
+Duplicate values in rotated arrays can make pivot search `O(n)` in the worst case because equal endpoints may need to be discarded.
 
-## Run from Windows CMD
-
-```text
-cd C:\Users\LAB\Downloads\route_score_optimizer
-python main.py
-```
-
-Custom run:
-
-```text
-python main.py --min-score 80 --legs 3
-```
-
-With a capacity limit:
-
-```text
-python main.py --min-score 80 --legs 3 --capacity-limit 35
-```
-
-## Run tests from CMD
+## Tests
 
 ```text
 python -m unittest discover -v
 ```
 
-## Run tests in Jupyter / Colab
-
-Do NOT use plain `unittest.main()`, because notebooks pass their own command-line arguments.
-
-Instead:
-
-```python
-from test_route_optimizer import run_tests
-run_tests()
-```
-
-Or from a notebook cell:
-
-```python
-!python -m unittest discover -v
-```
-
-## Algorithms
-
-### 1. Rotated-array search
-
-`find_pivot()` finds the smallest value in a rotated sorted array.
-
-With distinct values:
+## Dataset generation
 
 ```text
-O(log n)
+python generate_dataset.py --routes 10000 --type arbitrary --output datasets/arbitrary_10000.csv
+python generate_dataset.py --routes 10000 --type monotonic --output datasets/monotonic_10000.csv
 ```
 
-With duplicates, the safe `hi -= 1` step means the worst case can become:
+## Benchmarks
 
 ```text
-O(n)
+python benchmarks/benchmark.py --sizes 100 1000 5000
+python benchmarks/summarize.py
 ```
 
-`first_score_at_least()` then performs a binary search in the logical sorted order.
-
-### 2. Minimum capacity
-
-`min_capacity()` searches between:
-
-```text
-max(legs)
-```
-
-and:
-
-```text
-sum(legs)
-```
-
-For every candidate capacity, `feasible()` greedily groups consecutive legs.
-
-Because feasibility is monotonic, binary search finds the smallest valid capacity.
-
-For `n` legs and total distance `D`:
-
-```text
-O(n log D)
-```
-
-### 3. Multiple-route selection
-
-Each route is evaluated with the single-route optimizer.
-
-Results are ordered by:
-
-```text
-(-score, min_capacity, route_id)
-```
-
-Meaning:
-
-1. Higher score wins.
-2. Equal scores use lower capacity.
-3. Completely equal results use route ID for deterministic ordering.
-
-## Example output
-
-```text
-=== Route / Score Optimizer ===
-Minimum score: 80
-Maximum legs:  3
-
-Rotated scores: [88, 88, 95, 72, 81]
-First score >= threshold: 81
-
-Rank  Route     Score     Min capacity
------------------------------------------
-1     R104      95        30
-2     R103      88        28
-3     R102      88        35
-4     R105      81        30
-
-Winner: R104 (score=95, min_capacity=30)
-```
+The benchmark records execution time, routes examined, feasibility checks, capacity searches, and lower-bound prunes.

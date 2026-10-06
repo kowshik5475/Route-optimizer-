@@ -1,0 +1,13 @@
+dataset,size,algorithm,mean_seconds,runs
+arbitrary,100,scan_no_pruning,0.0006665820000080203,1
+arbitrary,100,scan_with_pruning,2.4365999991005083e-05,1
+arbitrary,1000,scan_no_pruning,0.005827452000005451,1
+arbitrary,1000,scan_with_pruning,0.0002781280000476727,1
+arbitrary,5000,scan_no_pruning,0.03066299799996841,1
+arbitrary,5000,scan_with_pruning,0.0018108119999737937,1
+monotonic,100,binary_search_routes,1.0795999969559489e-05,1
+monotonic,1000,binary_search_routes,7.065600004807493e-05,1
+monotonic,5000,binary_search_routes,0.0007089460000315739,1
+single_route,5,binary_search_capacity,5.487999999331805e-06,1
+single_route,6,binary_search_capacity,5.557999998018204e-06,1
+single_route,10,binary_search_capacity,7.401000004847447e-06,1

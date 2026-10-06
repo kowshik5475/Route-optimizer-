@@ -1,0 +1,13 @@
+dataset,size,algorithm,seconds,routes_examined,feasibility_checks,capacity_searches,lower_bound_prunes,result_route_id
+arbitrary,100,scan_no_pruning,0.0006665820000080203,100,100,100,0,R000003
+arbitrary,100,scan_with_pruning,2.4365999991005083e-05,2,1,1,0,R000003
+monotonic,100,binary_search_routes,1.0795999969559489e-05,1,6,1,0,M000006
+single_route,6,binary_search_capacity,5.557999998018204e-06,1,8,1,0,R000051
+arbitrary,1000,scan_no_pruning,0.005827452000005451,1000,1000,998,0,R000003
+arbitrary,1000,scan_with_pruning,0.0002781280000476727,2,1,1,0,R000003
+monotonic,1000,binary_search_routes,7.065600004807493e-05,1,10,1,0,M000006
+single_route,5,binary_search_capacity,5.487999999331805e-06,1,8,1,0,R000501
+arbitrary,5000,scan_no_pruning,0.03066299799996841,5000,5000,4977,0,R004597
+arbitrary,5000,scan_with_pruning,0.0018108119999737937,2,1,1,0,R004597
+monotonic,5000,binary_search_routes,0.0007089460000315739,1,13,1,0,M000006
+single_route,10,binary_search_capacity,7.401000004847447e-06,1,8,1,0,R002501
